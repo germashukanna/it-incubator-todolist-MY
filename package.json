@@ -1,5 +1,6 @@
 {
   "name": "it-incubator-todolist-ts",
+  "homepage": "https:/germashukanna/it-incubator-todolist-MY",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,8 +18,7 @@
     "typescript": "~3.7.2",
     "uuid": "^8.3.2"
   },
-  "homepage": "https:/germashukanna/it-incubator-todolist-MY",
-  "scripts": {
+    "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
