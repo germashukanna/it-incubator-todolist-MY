@@ -14,7 +14,7 @@ export type TodolistsType = {
     title: string
     filter: FilterValueType
 }
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TasksType>
 }
 
@@ -73,7 +73,7 @@ function App() {
         }
 
     }
-
+//--------------------------------------------------------------------------------------------------------//
     const changeFilter = (value: FilterValueType, todolistId: string) => {
         let todolist = todolists.find(tl => tl.id === todolistId)
         if (todolist) {
