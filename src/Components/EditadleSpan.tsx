@@ -7,7 +7,7 @@ type EditadleSpanPropsType = {
 }
 
 
-export const EditadleSpan = (props: EditadleSpanPropsType) => {
+export const EditadleSpan = React.memo((props: EditadleSpanPropsType) => {
     let [editeMode, setEditeMode] = useState(false)
     let [title, setTitle] = useState('')
 
@@ -26,4 +26,4 @@ export const EditadleSpan = (props: EditadleSpanPropsType) => {
             value={title} onChange={onChangeTitleHandler} onBlur={activateViewMode} autoFocus/>
         : <span onDoubleClick={activateEditMode}>{props.title}</span>
 
-}
+})
