@@ -31,7 +31,7 @@ test('correct todolist should be removed', () => {
 
 test('correct todolist should be added', () => {
 
-    let newTodolistTitle = 'New Todolist'
+    let newTodolistTitle = 'What to buy'
 
     const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
 

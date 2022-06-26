@@ -1,14 +1,13 @@
 import React, {useCallback} from 'react';
-// import './App.css';
 import {v1} from "uuid";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TasksType, Todolist} from "./Components/Todolist";
 import {AddItemForm} from "./Components/AddItemForm";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleusAC, removeTaskAC} from "./state/tasks-reducer";
 import {AddTodolistAC, ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC} from "./state/todolist-reducer";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import { Menu } from '@mui/icons-material';
 
 
 export type FilterValueType = "all" | "active" | "completed"
@@ -84,7 +83,7 @@ function AppWithRedux() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container spacing={3} style={{padding: '20px'}}>
+                <Grid container spacing={3} style={{padding: '40px'}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
