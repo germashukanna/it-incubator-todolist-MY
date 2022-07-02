@@ -5,7 +5,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': 'e297d982-3706-4e4f-ba3f-c7d5118d47f5',
+        'API-KEY': 'a52700d3-7991-48d5-ac35-fcdb339c5b05',
     },
 })
 
@@ -47,12 +47,25 @@ type ResponseType<D> = {
     data: D
 }
 
-type TasksType = {
+export enum TaskStatuses {
+    New,
+    InProgress,
+    Completed,
+    Draft
+}
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
+}
+
+export type TasksType = {
     description: string
     title: string
-    isDone: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string

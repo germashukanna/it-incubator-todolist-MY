@@ -1,10 +1,13 @@
-import React, {useCallback} from 'react';
-import {FilterValueType} from "../App";
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditadleSpan} from "./EditadleSpan";
 import {Task} from "../Task";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {TaskStatuses, TasksType} from "../api/tasks-api";
+import {FilterValueType} from "../state/todolist-reducer";
+import {fetchTasksTC} from "../state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 type TodolistPropsType = {
     title: string
@@ -12,7 +15,7 @@ type TodolistPropsType = {
     removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (value: FilterValueType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     filter: FilterValueType
     id: string
     removeTodolist: (id: string) => void
@@ -20,13 +23,8 @@ type TodolistPropsType = {
     changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
-export type TasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-
 export const Todolist = React.memo((props: TodolistPropsType) => {
+    const dispatch = useDispatch()
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
@@ -50,11 +48,15 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }, [props.changeTodolistTitle, props.id])
     let tasksForTodolists = props.tasks
     if (props.filter === "active") {
-        tasksForTodolists = props.tasks.filter(task => !task.isDone)
+        tasksForTodolists = props.tasks.filter(task => task.status === TaskStatuses.New)
     }
     if (props.filter === "completed") {
-        tasksForTodolists = props.tasks.filter(task => task.isDone)
+        tasksForTodolists = props.tasks.filter(task => task.status === TaskStatuses.Completed)
     }
+
+    useEffect(() => {
+        dispatch(fetchTasksTC(props.id))
+    },[])
 
     return (
         <div>

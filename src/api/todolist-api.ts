@@ -5,7 +5,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': 'e297d982-3706-4e4f-ba3f-c7d5118d47f5',
+        'API-KEY': 'a52700d3-7991-48d5-ac35-fcdb339c5b05',
     },
 })
 
@@ -29,7 +29,8 @@ export const todolistAPI = {
 }
 
 
-type TodoType = {
+
+export type TodoType = {
     id: string
     addedDate: string
     order: number

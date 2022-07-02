@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 import {EditadleSpan} from "./EditadleSpan";
 import {action} from "@storybook/addon-actions";
