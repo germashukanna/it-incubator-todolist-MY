@@ -79,7 +79,7 @@ export const tasksReducer = (state = initialState, action: ActionType): TasksSta
         case 'ADD-TODOLIST': {
             return {
                 ...state,
-                [action.todolistId]: []
+                [action.todolist.id]: []
 
             }
         }
@@ -103,7 +103,6 @@ export const tasksReducer = (state = initialState, action: ActionType): TasksSta
 export const removeTaskAC = (taskId: string, todolistId: string): RemoveTASKActionType => {
     return {type: 'REMOVE-TASK', taskId, todolistId}
 }
-
 export const changeTaskStatusAC = (taskId: string, status: TaskStatuses, todolistId: string): ChangeTaskStatusActionType => {
     return {type: 'CHANGE-TASK-STATUS', taskId, status, todolistId}
 }
@@ -113,7 +112,6 @@ export const changeTaskTitleusAC = (taskId: string, title: string, todolistId: s
 export const setTasksAC = (tasks: Array<TasksType>, todolistId: string) => {
     return {type: 'SET-TASKS', tasks, todolistId} as const
 }
-
 export const addTaskAC = (task: TasksType) => {
     return {type: 'ADD-TASK', task} as const
 }
@@ -128,7 +126,6 @@ export const fetchTasksTC = (todolistId: string) => {
             })
     }
 }
-
 export const createTasksTC = (todolistId: string, title: string) => {
     return (dispatch: Dispatch) => {
         tasksAPI.createTasks(todolistId, title)
@@ -138,7 +135,6 @@ export const createTasksTC = (todolistId: string, title: string) => {
             })
     }
 }
-
 export const removeTasksTC = (taskId: string, todolistId: string) => {
     return (dispatch: Dispatch) => {
         tasksAPI.deleteTasks(todolistId, taskId)
@@ -149,7 +145,6 @@ export const removeTasksTC = (taskId: string, todolistId: string) => {
             })
     }
 }
-
 export const updateTaskStatusTC = (taskId: string, todolistId: string, status: TaskStatuses) => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
 // так как мы обязаны на сервер отправить все св-ва, которые сервер ожидает, а не только

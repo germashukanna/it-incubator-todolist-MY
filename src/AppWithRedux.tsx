@@ -4,18 +4,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {AddItemForm} from "./Components/AddItemForm";
 import {
-    addTaskAC,
-    changeTaskStatusAC,
     changeTaskTitleusAC,
     createTasksTC,
-    removeTaskAC,
     removeTasksTC, updateTaskStatusTC
 } from "./state/tasks-reducer";
 import {
-    AddTodolistAC,
+    AddTodolistAC, addTodolistsTC,
     ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, fetchTodolistsTC, FilterValueType,
-    RemoveTodolistAC,
+    ChangeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValueType,
+    removeTodolistsTC,
     TodolistDomainType
 } from "./state/todolist-reducer";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
@@ -34,12 +31,10 @@ function AppWithRedux() {
     let todolistID2 = v1()
 
     let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-
     let dispatch = useDispatch()
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
+    const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTasksTC(id, todolistId))
     }, [dispatch])
 
@@ -61,19 +56,18 @@ function AppWithRedux() {
     }, [dispatch])
 
     const removeTodolist = useCallback((id: string) => {
-        let action = RemoveTodolistAC(id)
-        dispatch(action)
+        let thunk = removeTodolistsTC(id)
+        dispatch(thunk)
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
-        dispatch(ChangeTodolistTitleAC(id, newTitle))
+        dispatch(changeTodolistTitleTC(id, newTitle))
 
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
-        let action = AddTodolistAC(title)
-        dispatch(action)
-
+        let thunk = addTodolistsTC(title)
+        dispatch(thunk)
     }, [dispatch])
 
     useEffect(() => {

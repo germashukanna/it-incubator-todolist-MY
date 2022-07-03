@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 
 const instance = axios.create({
@@ -11,11 +11,11 @@ const instance = axios.create({
 
 export const tasksAPI = {
     getTasks: (todolistId: string) => {
-        return instance.get<GetTasksType[]>(`todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)
     },
 
     createTasks: (todolistId: string, taskTitle: string) => {
-        return instance.post<CreateTasksType[]>(`todo-lists/${todolistId}/tasks`, {title: taskTitle})
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TasksType }>>>(`todo-lists/${todolistId}/tasks`, {title: taskTitle})
     },
 
     deleteTasks: (todolistId: string, taskId: string) => {
@@ -23,11 +23,23 @@ export const tasksAPI = {
     },
 
     updateTasks: (todolistId: string, taskId: string, model: UpdateTasksType) => {
-        return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instance.put<UpdateTasksType, AxiosResponse<ResponseType<{ item: TasksType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 
 }
 
+export type TasksType = {
+    description: string
+    title: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
 
 type GetTasksType = {
     items: TasksType[]
@@ -35,13 +47,13 @@ type GetTasksType = {
     error: string | null
 }
 
-type CreateTasksType = {
-    items: TasksType[]
-    resultCode: number
-    messages: string
-}
+// type CreateTasksType = {
+//     items: TasksType[]
+//     resultCode: number
+//     messages: string
+// }
 
-type ResponseType<D> = {
+export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[],
     data: D
@@ -61,18 +73,7 @@ export enum TaskPriorities {
     Later
 }
 
-export type TasksType = {
-    description: string
-    title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
+
 
 type UpdateTasksType = {
     title: string

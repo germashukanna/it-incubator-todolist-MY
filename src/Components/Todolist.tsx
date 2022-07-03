@@ -55,7 +55,8 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }
 
     useEffect(() => {
-        dispatch(fetchTasksTC(props.id))
+        const thunk = fetchTasksTC(props.id)
+        dispatch(thunk)
     },[])
 
     return (

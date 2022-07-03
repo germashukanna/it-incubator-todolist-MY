@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
+import {ResponseType} from "./tasks-api";
 
 
 const instance = axios.create({
@@ -15,7 +16,7 @@ export const todolistAPI = {
     },
 
     createTodolist: (title: string) => {
-        return instance.post<BaseResponseType<{ item: TodoType }>>('todo-lists', {title})
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TodoType }>>>('todo-lists', {title})
     },
 
     deleteTodolist: (todolistId: string) => {
@@ -23,9 +24,8 @@ export const todolistAPI = {
     },
 
     updateTodolist: (todolistId: string, title: string) => {
-        return instance.put<BaseResponseType<{}>>(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<{ title: string }, AxiosResponse<BaseResponseType>>(`todo-lists/${todolistId}`, {title: title})
     },
-
 }
 
 
@@ -37,7 +37,7 @@ export type TodoType = {
     title: string
 }
 
-type BaseResponseType<a> = {
+type BaseResponseType<a = {}> = {
     resultCode: number
     messages: string[]
     fieldsErrors: string[]
