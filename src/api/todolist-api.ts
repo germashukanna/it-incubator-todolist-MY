@@ -10,6 +10,7 @@ const instance = axios.create({
     },
 })
 
+//api
 export const todolistAPI = {
     getTodolists: () => {
         return instance.get<TodoType[]>('todo-lists')
@@ -29,14 +30,13 @@ export const todolistAPI = {
 }
 
 
-
+// types
 export type TodoType = {
     id: string
     addedDate: string
     order: number
     title: string
 }
-
 type BaseResponseType<a = {}> = {
     resultCode: number
     messages: string[]

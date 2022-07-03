@@ -9,9 +9,9 @@ import {
     removeTasksTC, updateTaskStatusTC
 } from "./state/tasks-reducer";
 import {
-    AddTodolistAC, addTodolistsTC,
+    addTodolistsTC,
     ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValueType,
+    changeTodolistTitleTC, fetchTodolistsTC, FilterValueType,
     removeTodolistsTC,
     TodolistDomainType
 } from "./state/todolist-reducer";
