@@ -3,6 +3,7 @@ import {tasksAPI, TaskStatuses, TasksType} from "../../api/tasks-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../app/store";
 import {TasksStateType} from "../../app/AppWithRedux";
+import {AppActionsType, errorAppStatusAC, setAppStatusAC} from "../../app/app-reducer";
 
 
 export const tasksReducer = (state = initialState, action: ActionType): TasksStateType => {
@@ -74,37 +75,52 @@ export const addTaskAC = (task: TasksType) => {
 
 //Thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setAppStatusAC("loading"))
     tasksAPI.getTasks(todolistId)
         .then((res) => {
             const tasks = res.data.items
             const action = setTasksAC(tasks, todolistId)
             dispatch(action)
+            dispatch(setAppStatusAC("succeeded"))
         })
 }
 export const createTasksTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setAppStatusAC("loading"))
     tasksAPI.createTasks(todolistId, title)
         .then((res) => {
-            const action = addTaskAC(res.data.data.item)
-            dispatch(action)
+            if (res.data.resultCode === 0) {
+                const action = addTaskAC(res.data.data.item)
+                dispatch(action)
+                dispatch(setAppStatusAC("succeeded"))
+            } else {
+                if (res.data.messages.length){
+                    dispatch(errorAppStatusAC(res.data.messages[0]))
+                }else {
+                    dispatch(errorAppStatusAC("Some error occurred"))
+            }
+            dispatch(setAppStatusAC("failed"))
+            }
         })
 }
 export const removeTasksTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setAppStatusAC("loading"))
     tasksAPI.deleteTasks(todolistId, taskId)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(taskId, todolistId))
+                dispatch(setAppStatusAC("succeeded"))
             }
         })
 }
 export const updateTaskStatusTC = (taskId: string, todolistId: string, status: TaskStatuses) => (dispatch: Dispatch<ActionType>, getState: () => AppRootStateType) => {
 // так как мы обязаны на сервер отправить все св-ва, которые сервер ожидает, а не только
 // те, которые мы хотим обновить, соответственно нам нужно в этом месте взять таску целиком  // чтобы у неё отобрать остальные св-ва
+    dispatch(setAppStatusAC("loading"))
     const allTasksFromState = getState().tasks;
     const tasksForCurrentTodolist = allTasksFromState[todolistId]
     const task = tasksForCurrentTodolist.find(t => {
         return t.id === taskId
     })
-
     if (task) {
         tasksAPI.updateTasks(todolistId, taskId, {
             title: task.title,
@@ -113,9 +129,16 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
             description: task.description,
             deadline: task.deadline,
             status: status
-        }).then(() => {
-            const action = changeTaskStatusAC(taskId, status, todolistId)
-            dispatch(action)
+        }).then(res => {
+            if (res.data.resultCode === 0) {
+                const action = changeTaskStatusAC(taskId, status, todolistId)
+                dispatch(action)
+                dispatch(setAppStatusAC("succeeded"))
+            } else {
+                dispatch(errorAppStatusAC(res.data.messages[0]))
+
+            }
+            dispatch(setAppStatusAC("failed"))
         })
     }
 }
@@ -127,9 +150,13 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleusAC>
 type SetTasksAType = ReturnType<typeof setTasksAC>
 type addTaskType = ReturnType<typeof addTaskAC>
 
-type ActionType = RemoveTASKActionType |
-    ChangeTaskStatusActionType | ChangeTaskTitleActionType | AddTodolistActionType |
-    RemoveTodolistActionType | setTososType | SetTasksAType | addTaskType
+type ActionType = RemoveTASKActionType
+    | addTaskType
+    | ChangeTaskStatusActionType
+    | AddTodolistActionType
+    | ChangeTaskTitleActionType
+    | RemoveTodolistActionType | setTososType | SetTasksAType
+    | AppActionsType
 
 const initialState: TasksStateType = {}
 
