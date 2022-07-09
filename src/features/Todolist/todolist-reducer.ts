@@ -1,6 +1,6 @@
 import {todolistAPI, TodoType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {AppThunk} from "../../app/store";
+import {AppDispatch, AppThunk} from "../../app/store";
 
 
 export const todolistsReducer = (state = initialState, action: ActionType): Array<TodolistDomainType> => {
@@ -43,7 +43,7 @@ export const setTososAC = (todos: TodoType[]) => {
 }
 
 //Thunks
-export const fetchTodolistsTC = (): AppThunk => {
+export const fetchTodolistsTC = () => {
     return (dispatch: Dispatch<ActionType>) => {
         todolistAPI.getTodolists()
             .then((res) => {

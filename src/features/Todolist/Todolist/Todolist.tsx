@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "./AddItemForm";
-import {EditadleSpan} from "./EditadleSpan";
-import {Task} from "../Task";
+import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
+import {EditadleSpan} from "../../../Components/EditadleSpan/EditadleSpan";
+import {Task} from "./Task/Task";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TasksType} from "../api/tasks-api";
-import {FilterValueType} from "../state/todolist-reducer";
-import {fetchTasksTC} from "../state/tasks-reducer";
+import {TaskStatuses, TasksType} from "../../../api/tasks-api";
+import {FilterValueType} from "../todolist-reducer";
+import {fetchTasksTC} from "../tasks-reducer";
 import {useDispatch} from "react-redux";
 
 type TodolistPropsType = {
@@ -55,9 +55,9 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }
 
     useEffect(() => {
-        const thunk = fetchTasksTC(props.id)
-        dispatch(thunk)
-    },[])
+        dispatch(fetchTasksTC(props.id))
+
+    }, [])
 
     return (
         <div>
