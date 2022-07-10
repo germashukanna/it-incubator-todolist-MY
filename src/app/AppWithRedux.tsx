@@ -7,8 +7,10 @@ import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
 import {useAppSelector} from "./Hooks";
 
 
+
 export type TasksStateType = {
     [key: string]: Array<TasksType>
+
 }
 
 function AppWithRedux() {

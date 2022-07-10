@@ -90,6 +90,7 @@ export const TodolistsList: React.FC = (props) => {
                                     removeTodolist={removeTodolist}
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}
+                                    entityStatus={todolist.entityStatus}
                                 />
                             </Paper>
                         </Grid>

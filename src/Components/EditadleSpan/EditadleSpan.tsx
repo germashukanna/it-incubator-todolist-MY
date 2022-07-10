@@ -5,6 +5,7 @@ import {TextField} from "@mui/material";
 type EditadleSpanPropsType = {
     title: string
     onChange: (newValue: string) => void
+    disabled?: boolean
 }
 
 

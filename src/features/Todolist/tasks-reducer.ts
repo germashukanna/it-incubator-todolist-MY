@@ -3,7 +3,9 @@ import {tasksAPI, TaskStatuses, TasksType} from "../../api/tasks-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../app/store";
 import {TasksStateType} from "../../app/AppWithRedux";
-import {AppActionsType, errorAppStatusAC, setAppStatusAC} from "../../app/app-reducer";
+import {AppActionsType, setAppStatusAC} from "../../app/app-reducer";
+import {AxiosError} from "axios";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 export const tasksReducer = (state = initialState, action: ActionType): TasksStateType => {
@@ -93,13 +95,11 @@ export const createTasksTC = (todolistId: string, title: string) => (dispatch: D
                 dispatch(action)
                 dispatch(setAppStatusAC("succeeded"))
             } else {
-                if (res.data.messages.length){
-                    dispatch(errorAppStatusAC(res.data.messages[0]))
-                }else {
-                    dispatch(errorAppStatusAC("Some error occurred"))
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setAppStatusAC("failed"))
-            }
+        })
+        .catch((error: AxiosError) => {
+            handleServerNetworkError(error.message, dispatch)
         })
 }
 export const removeTasksTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionType>) => {
@@ -135,11 +135,12 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
                 dispatch(action)
                 dispatch(setAppStatusAC("succeeded"))
             } else {
-                dispatch(errorAppStatusAC(res.data.messages[0]))
-
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setAppStatusAC("failed"))
         })
+            .catch((error: AxiosError) => {
+                handleServerNetworkError(error.message, dispatch)
+            })
     }
 }
 
@@ -150,7 +151,7 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleusAC>
 type SetTasksAType = ReturnType<typeof setTasksAC>
 type addTaskType = ReturnType<typeof addTaskAC>
 
-type ActionType = RemoveTASKActionType
+export type ActionType = RemoveTASKActionType
     | addTaskType
     | ChangeTaskStatusActionType
     | AddTodolistActionType
