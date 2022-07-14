@@ -58,8 +58,12 @@ export const fetchTodolistsTC = () => {
                 dispatch(setTososAC(res.data))
                 dispatch(setAppStatusAC("succeeded"))
             })
+            .catch((error: AxiosError) => {
+                handleServerNetworkError(error.message, dispatch)
+            })
     }
 }
+
 export const removeTodolistsTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionType>) => {
         dispatch(setAppStatusAC("loading"))

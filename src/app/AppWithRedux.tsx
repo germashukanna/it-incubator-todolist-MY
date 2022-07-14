@@ -5,6 +5,8 @@ import {TasksType} from "../api/tasks-api";
 import {TodolistsList} from "../features/Todolist/Todolist/Todolists";
 import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
 import {useAppSelector} from "./Hooks";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "../features/Login/Login";
 
 
 
@@ -17,6 +19,7 @@ function AppWithRedux() {
  const status = useAppSelector((state)=> state.appReducer.status )
 
     return (
+        <BrowserRouter>
         <div className="App">
             <ErrorSnackbar/>
             <AppBar position={"static"}>
@@ -32,9 +35,15 @@ function AppWithRedux() {
                 {status === "loading" && <LinearProgress color="secondary"/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <Routes>
+                    <Route path={'/'} element={<TodolistsList/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route path="*" element={<Navigate to={'/404'}/>}/>
+                </Routes>
             </Container>
         </div>
+        </BrowserRouter>
     );
 }
 

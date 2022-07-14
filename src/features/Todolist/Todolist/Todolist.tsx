@@ -7,8 +7,8 @@ import {Delete} from "@mui/icons-material";
 import {TaskStatuses, TasksType} from "../../../api/tasks-api";
 import {FilterValueType} from "../todolist-reducer";
 import {fetchTasksTC} from "../tasks-reducer";
-import {useDispatch} from "react-redux";
 import {RequestStatusType} from "../../../app/app-reducer";
+import {useAppDispatch} from "../../../app/Hooks";
 
 type TodolistPropsType = {
     title: string
@@ -26,7 +26,7 @@ type TodolistPropsType = {
 }
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const toCheckStatus = props.entityStatus === 'loading'
 
     const addTask = useCallback((title: string) => {

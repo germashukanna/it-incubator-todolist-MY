@@ -12,6 +12,7 @@ import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist";
 import {useAppDispatch, useAppSelector} from "../../../app/Hooks";
+import {Navigate} from "react-router-dom";
 
 // type TodolistsPropsType = {
 //     todolist: Array<TodolistDomainType>
@@ -21,6 +22,7 @@ export const TodolistsList: React.FC = (props) => {
 
     let todolists = useAppSelector(state => state.todolists)
     let tasks = useAppSelector(state => state.tasks)
+    const isLoggedIh = useAppSelector((state) => state.login.isLoggedIh)
     const dispatch = useAppDispatch()
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
@@ -63,6 +65,9 @@ export const TodolistsList: React.FC = (props) => {
         dispatch(fetchTodolistsTC())
     }, [])
 
+    if (!isLoggedIh) {
+        return <Navigate to={'/login'}/>
+    }
 
     return (
         <>
