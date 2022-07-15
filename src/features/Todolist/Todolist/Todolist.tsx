@@ -23,9 +23,10 @@ type TodolistPropsType = {
     removeTodolist: (id: string) => void
     changeTaskTitle: (id: string, newTitle: string, todolistId: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
+    demo?: boolean
 }
 
-export const Todolist = React.memo((props: TodolistPropsType) => {
+export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
     const dispatch = useAppDispatch()
     const toCheckStatus = props.entityStatus === 'loading'
 
@@ -58,13 +59,17 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(fetchTasksTC(props.id))
     }, [])
 
     return (
         <div>
             <h3>
-                <EditadleSpan title={props.title} onChange={changeTodolistTitle} disabled={props.entityStatus === 'loading'}/>
+                <EditadleSpan title={props.title} onChange={changeTodolistTitle}
+                              disabled={props.entityStatus === 'loading'}/>
                 <IconButton onClick={removeTodolistHandler} disabled={toCheckStatus}>
                     <Delete/></IconButton>
             </h3>

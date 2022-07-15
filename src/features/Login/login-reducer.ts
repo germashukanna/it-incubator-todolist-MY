@@ -44,6 +44,21 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionType
             handleServerNetworkError(error.message, dispatch)
         })
 }
+export const logOutTC = () => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setAppStatusAC("loading"))
+    authAPI.loginOut()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedIhAC(false))
+                dispatch(setAppStatusAC("succeeded"))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error: AxiosError) => {
+            handleServerNetworkError(error.message, dispatch)
+        })
+}
 
 
 //Types

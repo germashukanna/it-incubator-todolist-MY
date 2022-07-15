@@ -1,8 +1,7 @@
 import {Dispatch} from "redux";
-import {tasksAPI} from "../api/tasks-api";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {AxiosError} from "axios";
-import {ActionType, addTaskAC} from "../features/Todolist/tasks-reducer";
+import {ActionType, setIsLoggedIhAC} from "../features/Login/login-reducer";
+import {authAPI} from "../api/todolist-api";
+
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -17,7 +16,7 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as null | string,
-    isInitialized: true
+    isInitialized: false
 }
 
 type InitialStateType = typeof initialState
@@ -43,22 +42,19 @@ export const setAppIsInitializedAC = (value: boolean) => ({type: 'APP/SET-INITIA
 
 
 //Thunks
-// export const шnitializedTC = () => (dispatch: Dispatch<ActionType>) => {
-//     dispatch(setAppStatusAC("loading"))
-//     tasksAPI.createTasks(todolistId, title)
-//         .then((res) => {
-//             if (res.data.resultCode === 0) {
-//                 const action = addTaskAC(res.data.data.item)
-//                 dispatch(action)
-//                 dispatch(setAppStatusAC("succeeded"))
-//             } else {
-//                 handleServerAppError(res.data, dispatch)
-//             }
-//         })
-//         .catch((error: AxiosError) => {
-//             handleServerNetworkError(error.message, dispatch)
-//         })
-// }
+export const initializedTC = () => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(setAppStatusAC("loading"))
+    authAPI.me()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedIhAC(true))
+
+            } else {
+
+            }
+            dispatch(setAppIsInitializedAC(true))
+        })
+}
 
 
 //Types
@@ -66,3 +62,4 @@ export type AppActionsType =
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof errorAppStatusAC>
     | ReturnType<typeof setAppIsInitializedAC>
+    | ReturnType<typeof setIsLoggedIhAC>

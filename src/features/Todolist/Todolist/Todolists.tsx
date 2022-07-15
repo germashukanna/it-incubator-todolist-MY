@@ -14,16 +14,23 @@ import {Todolist} from "./Todolist";
 import {useAppDispatch, useAppSelector} from "../../../app/Hooks";
 import {Navigate} from "react-router-dom";
 
-// type TodolistsPropsType = {
-//     todolist: Array<TodolistDomainType>
-// }
+type PropsType = {
+    demo?: boolean
+}
 
-export const TodolistsList: React.FC = (props) => {
+export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
     let todolists = useAppSelector(state => state.todolists)
     let tasks = useAppSelector(state => state.tasks)
     const isLoggedIh = useAppSelector((state) => state.login.isLoggedIh)
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (demo || !isLoggedIh) {
+            return;
+        }
+        dispatch(fetchTodolistsTC())
+    }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTasksTC(id, todolistId))
@@ -61,9 +68,6 @@ export const TodolistsList: React.FC = (props) => {
         dispatch(thunk)
     }, [dispatch])
 
-    useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    }, [])
 
     if (!isLoggedIh) {
         return <Navigate to={'/login'}/>
@@ -96,6 +100,7 @@ export const TodolistsList: React.FC = (props) => {
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}
                                     entityStatus={todolist.entityStatus}
+                                    demo={demo}
                                 />
                             </Paper>
                         </Grid>
