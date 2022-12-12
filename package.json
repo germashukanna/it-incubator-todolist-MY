@@ -1,12 +1,14 @@
 {
   "name": "my-app",
+  "homepage": "https://germashukanna.github.io/it-incubator-todolist-MY",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.5",
+    "@mui/material": "^5.8.6",
+    "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -16,11 +18,14 @@
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^8.3.4",
     "axios": "^0.27.2",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
     "typescript": "^4.4.2",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.0"
@@ -30,10 +35,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
+    "storybook": "start-storybook -p 6009 -s public",
     "build-storybook": "build-storybook -s public",
-    "jest:integration": "jest -c integration/jest.config.js",
-    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -75,11 +80,8 @@
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
-    "jest-image-snapshot": "^5.1.0",
-    "jest-puppeteer": "^6.1.0",
+    "gh-pages": "^4.0.0",
     "prop-types": "^15.8.1",
-    "puppeteer": "^15.1.1",
-    "start-server-and-test": "^1.14.0",
     "webpack": "^5.73.0"
   }
 }

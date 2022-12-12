@@ -4,19 +4,18 @@ import {ActionType} from "../features/Todolist/tasks-reducer";
 import {ResponseType} from "../api/tasks-api";
 
 
-
-export const handleServerAppError  = <T>(data: ResponseType<T>, dispatch: Dispatch<ActionType>) => {
+export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: Dispatch<ActionType>) => {
     if (data.messages.length) {
-        dispatch(errorAppStatusAC(data.messages[0]))
+        dispatch(errorAppStatusAC({error: data.messages[0]}))
     } else {
-        dispatch(errorAppStatusAC("Some error occurred"))
+        dispatch(errorAppStatusAC({error: "Some error occurred"}))
     }
-    dispatch(setAppStatusAC("failed"))
+    dispatch(setAppStatusAC({status: "failed"}))
 }
 
 
 export const handleServerNetworkError = (message: string, dispatch: Dispatch<ActionType>) => {
-    dispatch(errorAppStatusAC(message))
-    dispatch(setAppStatusAC("failed"))
+    dispatch(errorAppStatusAC({error: message}))
+    dispatch(setAppStatusAC({status: "failed"}))
 
 }

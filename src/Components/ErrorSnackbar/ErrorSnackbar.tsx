@@ -19,7 +19,7 @@ export function ErrorSnackbar() {
             return;
         }
         // setOpen(false);
-        dispatch(errorAppStatusAC(null))
+        dispatch(errorAppStatusAC({error: null}))
     };
 
     return (

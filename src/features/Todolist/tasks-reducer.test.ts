@@ -35,7 +35,7 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
 
-    const action = removeTaskAC('2', 'todolistId2')
+    const action = removeTaskAC({taskId: '2', todolistId: 'todolistId2'})
 
     const endState = tasksReducer(startState, action)
 
@@ -64,9 +64,9 @@ test('correct task should be deleted from correct array', () => {
 
 test('correct task should be added to correct array', () => {
 
-    const action = addTaskAC({id: '3', title: 'juce', status: TaskStatuses.New, todoListId: 'todolistId2',
+    const action = addTaskAC({task: {id: '3', title: 'juce', status: TaskStatuses.New, todoListId: 'todolistId2',
         description: '', startDate: '', deadline: '', addedDate: '', order: 0,
-        priority: TaskPriorities.Low, entityStatus: "idle"});
+        priority: TaskPriorities.Low, entityStatus: "idle"}});
 
     const endState = tasksReducer(startState, action)
 
@@ -80,7 +80,7 @@ test('correct task should be added to correct array', () => {
 
 test('status of specified task should be changed', () => {
 
-    const action = changeTaskStatusAC("2", TaskStatuses.New, "todolistId2");
+    const action = changeTaskStatusAC({taskId: "2", status: TaskStatuses.New, todolistId: "todolistId2"});
 
     const endState = tasksReducer(startState, action)
 
@@ -90,7 +90,7 @@ test('status of specified task should be changed', () => {
 
 test('Change Title', () => {
 
-    const action = changeTaskTitleusAC('2', "Juce", 'todolistId2')
+    const action = changeTaskTitleusAC({taskId: '2', title: "Juce", todolistId: 'todolistId2'})
 
     const endState = tasksReducer(startState, action)
 
@@ -100,7 +100,7 @@ test('Change Title', () => {
 
 test('property with todolistId should be deleted', () => {
 
-    const action = RemoveTodolistAC("todolistId2");
+    const action = RemoveTodolistAC({id: "todolistId2"});
 
     const endState = tasksReducer(startState, action)
 
