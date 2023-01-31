@@ -45,31 +45,29 @@ function AppWithRedux() {
     }
 
     return (
-        <BrowserRouter>
-            <div className="App">
-                <ErrorSnackbar/>
-                <AppBar position={"static"}>
-                    <Toolbar>
-                        <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
-                            <Menu/>
-                        </IconButton>
-                        <Typography variant={"h6"}>
-                            Todolist
-                        </Typography>
-                        {isLoggedIh && <Button color={"inherit"} onClick={onLogOutHandler}>Log out</Button>}
-                    </Toolbar>
-                    {status === "loading" && <LinearProgress color="secondary"/>}
-                </AppBar>
-                <Container fixed>
-                    <Routes>
-                        <Route path={'/'} element={<TodolistsList/>}/>
-                        <Route path={'/login'} element={<Login/>}/>
-                        <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
-                        <Route path="*" element={<Navigate to={'/404'}/>}/>
-                    </Routes>
-                </Container>
-            </div>
-        </BrowserRouter>
+        <div className="App">
+            <ErrorSnackbar/>
+            <AppBar position={"static"}>
+                <Toolbar>
+                    <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant={"h6"}>
+                        Todolist
+                    </Typography>
+                    {isLoggedIh && <Button color={"inherit"} onClick={onLogOutHandler}>Log out</Button>}
+                </Toolbar>
+                {status === "loading" && <LinearProgress color="secondary"/>}
+            </AppBar>
+            <Container fixed>
+                <Routes>
+                    <Route path={'/'} element={<TodolistsList/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route path="*" element={<Navigate to={'/404'}/>}/>
+                </Routes>
+            </Container>
+        </div>
     );
 }
 

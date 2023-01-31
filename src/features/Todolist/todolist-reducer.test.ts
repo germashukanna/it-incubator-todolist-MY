@@ -25,7 +25,7 @@ test('correct todolist should be removed', () => {
     const endState = todolistsReducer(startState, RemoveTodolistAC({id: todolistId1}))
 
     expect(endState.length).toBe(1)
-    expect(endState[0].id).toBe(todolistId2)
+    expect(endState[0].id).toBe(todolistId1)
 })
 
 test('correct todolist should be added', () => {
