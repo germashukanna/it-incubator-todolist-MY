@@ -26,22 +26,22 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (demo || !isLoggedIh) {
-            return;
-        }
+        // if (demo || !isLoggedIh) {
+        //     return;
+        // }
         dispatch(fetchTodolistsTC())
     }, [])
 
-    const removeTask = useCallback(function (id: string, todolistId: string) {
-        dispatch(removeTasksTC(id, todolistId))
+    const removeTask = useCallback(function (taskId: string, todolistId: string) {
+        dispatch(removeTasksTC({taskId, todolistId}))
     }, [dispatch])
 
     const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(createTasksTC(todolistId, title))
+        dispatch(createTasksTC({todolistId, title}))
     }, [dispatch])
 
-    const changeTaskStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskStatusTC(id, todolistId, status))
+    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskStatusTC({taskId, todolistId, status}))
     }, [dispatch])
 
     const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
@@ -59,7 +59,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
-        dispatch(changeTodolistTitleTC(id, newTitle))
+        dispatch(changeTodolistTitleTC({id, title: newTitle}))
 
     }, [dispatch])
 

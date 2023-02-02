@@ -52,6 +52,7 @@ type GetTasksType = {
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[],
+    fieldErrors?: Array<{field: string, error: string}>
     data: D
 }
 export enum TaskStatuses {
