@@ -49,10 +49,12 @@ export type TodoType = {
     order: number
     title: string
 }
+
+export type FieldErrorType = {field: string, error: string}
 type BaseResponseType<a = {}> = {
     resultCode: number
     messages: string[]
-    fieldsErrors: string[]
+    fieldsErrors?: Array<FieldErrorType>
     data: a
 }
 

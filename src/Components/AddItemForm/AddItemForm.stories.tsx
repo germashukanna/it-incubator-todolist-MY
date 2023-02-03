@@ -8,7 +8,6 @@ import {action} from "@storybook/addon-actions";
 export default {
     title: 'TODOLISTS/AddItemForm',
     component: AddItemForm,
-
     argTypes: {
         addItem: {
             description: 'button clicked inside form'
@@ -16,11 +15,16 @@ export default {
     },
 } as ComponentMeta<typeof AddItemForm>;
 
+
+const asynkCallback = async (...params: any) => {
+    action('button clicked inside form')(...params)
+}
+
 const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
 
 export const AddItemFormStories = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 AddItemFormStories.args = {
-addItem: action('button clicked inside form')
+addItem: asynkCallback
 };
 

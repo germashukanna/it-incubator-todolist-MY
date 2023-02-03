@@ -8,9 +8,11 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
-import {loginTC} from "./login-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/Hooks";
+import {useAppSelector} from "../../app/Hooks";
 import {Navigate} from "react-router-dom";
+import {selectIsLoggedIh} from "./selectors";
+import {useActions} from "../../app/store";
+import {authActions} from "./index";
 
 
 type FormikValuesType = {
@@ -21,8 +23,8 @@ type FormikValuesType = {
 
 export const Login = () => {
 
-   const isLoggedIh = useAppSelector((state) => state.login.isLoggedIh)
-    const dispatch = useAppDispatch()
+    const isLoggedIh = useAppSelector(selectIsLoggedIh)
+    const {loginTC} = useActions(authActions)
 
     type FormikErrorType = {
         email?: string
@@ -48,7 +50,7 @@ export const Login = () => {
             return errors
         },
         onSubmit: async (values, formikHelpers: FormikHelpers<FormikValuesType>) => {
-           const res = await dispatch(loginTC(values));
+            const res = await loginTC(values);
             formikHelpers.setFieldError('email', 'Error')
             formik.resetForm();
         },

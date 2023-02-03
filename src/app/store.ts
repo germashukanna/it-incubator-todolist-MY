@@ -1,10 +1,12 @@
 import {tasksReducer} from '../features/Todolist/tasks-reducer';
-import {AnyAction, combineReducers} from 'redux';
+import {ActionCreatorsMapObject, AnyAction, bindActionCreators, combineReducers} from 'redux';
 import {todolistsReducer} from "../features/Todolist/todolist-reducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {appReducer} from "./app-reducer";
 import {loginReducer} from "../features/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {useMemo} from "react";
+import {useAppDispatch} from "./Hooks";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -39,5 +41,14 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
 
 // @ts-ignore
 window.store = store;
+
+export function useActions<T extends ActionCreatorsMapObject<any>>(actions: T) {
+  const dispatch = useAppDispatch()
+
+    const boundActions = useMemo(() => {
+        return bindActionCreators(actions, dispatch)
+    }, [])
+    return boundActions
+}
 
 

@@ -3,7 +3,7 @@ import {IconButton, TextField} from "@mui/material";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddItemFormPropsType = {
-    addItem: (title: string) => void
+    addItem: (title: string) => Promise<any>
     disabled?: boolean
 }
 
@@ -11,10 +11,15 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
-    const addItem = () => {
+    const addItem = async () => {
         if (title.trim() !== "") {
-            props.addItem(title.trim())
-            setTitle("")
+            try {
+                await props.addItem(title.trim())
+                setTitle("")
+            } catch (error) {
+                // @ts-ignore
+                setError(error.message)
+            }
         } else {
             setError("Title is required")
         }
@@ -43,13 +48,16 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                    label={'Title'}
                    helperText={error}
                    disabled={props.disabled}
+                   color={'secondary'}
         />
-        <IconButton color={'primary'} size={"small"} disabled={props.disabled}
-                    style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+        <IconButton color={'secondary'} size={"small"} disabled={props.disabled}
+                    style={{
+                        maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px',
+                        marginLeft: '15x'
+                    }}
                     onClick={() => {
                         addItem()
                     }}><AddBox/>
         </IconButton>
-
     </div>
 })

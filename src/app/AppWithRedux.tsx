@@ -11,13 +11,15 @@ import {
 } from "@mui/material";
 import {Menu} from '@mui/icons-material';
 import {TasksType} from "../api/tasks-api";
-import {TodolistsList} from "../features/Todolist/Todolist/Todolists";
+import {TodolistsList} from "../features/Todolist/";
 import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./Hooks";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/Login/Login";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "../features/Login/";
 import {initializedTC} from "./app-reducer";
 import {logOutTC} from "../features/Login/login-reducer";
+import {selectInitialized, selectStatus} from './selectors';
+import {authSelectors} from "../features/Login";
 
 
 export type TasksStateType = {
@@ -26,9 +28,9 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-    const status = useAppSelector((state) => state.appReducer.status)
-    const initialized = useAppSelector((state) => state.appReducer.isInitialized)
-    const isLoggedIh = useAppSelector((state) => state.login.isLoggedIh)
+    const status = useAppSelector(selectStatus)
+    const initialized = useAppSelector(selectInitialized)
+    const isLoggedIh = useAppSelector(authSelectors.selectIsLoggedIh)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -47,7 +49,7 @@ function AppWithRedux() {
     return (
         <div className="App">
             <ErrorSnackbar/>
-            <AppBar position={"static"}>
+            <AppBar position={"static"} color={'secondary'}>
                 <Toolbar>
                     <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
                         <Menu/>
@@ -57,7 +59,7 @@ function AppWithRedux() {
                     </Typography>
                     {isLoggedIh && <Button color={"inherit"} onClick={onLogOutHandler}>Log out</Button>}
                 </Toolbar>
-                {status === "loading" && <LinearProgress color="secondary"/>}
+                {status === "loading" && <LinearProgress color="inherit"/>}
             </AppBar>
             <Container fixed>
                 <Routes>

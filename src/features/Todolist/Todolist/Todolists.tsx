@@ -1,18 +1,13 @@
-import {
-    addTodolistsTC,
-    ChangeTodolistFilterAC,
-    changeTodolistTitleTC, fetchTodolistsTC,
-    FilterValueType,
-    removeTodolistsTC,
-} from "../todolist-reducer";
 import React, {useCallback, useEffect} from "react";
-import {changeTaskTitleusAC, createTasksTC, removeTasksTC, updateTaskStatusTC} from "../tasks-reducer";
-import {TaskStatuses} from "../../../api/tasks-api";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist";
-import {useAppDispatch, useAppSelector} from "../../../app/Hooks";
+import {useAppSelector} from "../../../app/Hooks";
 import {Navigate} from "react-router-dom";
+import {authSelectors} from "../../Login";
+import {todolistsActions} from "../index";
+import {useActions} from "../../../app/store";
+
 
 type PropsType = {
     demo?: boolean
@@ -22,51 +17,43 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
     let todolists = useAppSelector(state => state.todolists)
     let tasks = useAppSelector(state => state.tasks)
-    const isLoggedIh = useAppSelector((state) => state.login.isLoggedIh)
-    const dispatch = useAppDispatch()
+    const isLoggedIh = useAppSelector(authSelectors.selectIsLoggedIh)
+    const {fetchTodolistsTC, addTodolistsTC} = useActions(todolistsActions)
 
-    useEffect(() => {
-        // if (demo || !isLoggedIh) {
-        //     return;
-        // }
-        dispatch(fetchTodolistsTC())
+    const addTodolists = useCallback(async (title: string) => {
+        addTodolistsTC(title)
     }, [])
 
-    const removeTask = useCallback(function (taskId: string, todolistId: string) {
-        dispatch(removeTasksTC({taskId, todolistId}))
-    }, [dispatch])
+    useEffect(() => {
+        fetchTodolistsTC()
+    }, [])
 
-    const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(createTasksTC({todolistId, title}))
-    }, [dispatch])
+    // const removeTask = useCallback(function (taskId: string, todolistId: string) {
+    //     removeTasksTC({taskId, todolistId})
+    // }, [])
 
-    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskStatusTC({taskId, todolistId, status}))
-    }, [dispatch])
+    // const addTask = useCallback((title: string, todolistId: string) => {
+    //     createTasksTC({todolistId, title})
+    // }, [])
 
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(changeTaskTitleusAC({taskId: id, title: newTitle, todolistId}))
 
-    }, [dispatch])
 //--------------------------------------------------------------------------------------------------------//
-    const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
-        dispatch(ChangeTodolistFilterAC({id: todolistId, filter: value}))
-    }, [dispatch])
+//     const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
+//         ChangeTodolistFilterAC({id: todolistId, filter: value})
+//     }, [dispatch])
 
-    const removeTodolist = useCallback((id: string) => {
-        let thunk = removeTodolistsTC(id)
-        dispatch(thunk)
-    }, [dispatch])
+    // const removeTodolist = useCallback((id: string) => {
+    //     removeTodolistsTC(id)
+    // }, [dispatch])
 
-    const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
-        dispatch(changeTodolistTitleTC({id, title: newTitle}))
+    // const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
+    //     changeTodolistTitleTC({id, title: newTitle})
+    //
+    // }, [dispatch])
 
-    }, [dispatch])
-
-    const addTodolist = useCallback((title: string) => {
-        let thunk = addTodolistsTC(title)
-        dispatch(thunk)
-    }, [dispatch])
+    // const addTodolist = useCallback((title: string) => {
+    //     addTodolistsTC(title)
+    // }, [dispatch])
 
 
     if (!isLoggedIh) {
@@ -74,31 +61,22 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }
 
     return (
-        <>
-            <Grid container spacing={3} style={{padding: '40px'}}>
-                <AddItemForm addItem={addTodolist}/>
+        <div>
+            <Grid container style={{padding: '20px'}}>
+                <AddItemForm addItem={addTodolists}/>
             </Grid>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
                 {
                     todolists.map(todolist => {
                         let allTodoListTasks = tasks[todolist.id]
-                        let tasksForTodolists = allTodoListTasks
 
-                        return <Grid item>
-                            <Paper style={{padding: '10px'}}>
+                        return <Grid item key={todolist.id}>
+                            <Paper style={{padding: '10px', width: '300px'}}>
                                 <Todolist
-                                    key={todolist.id}
                                     id={todolist.id}
                                     title={todolist.title}
-                                    tasks={tasksForTodolists}
-                                    removeTask={removeTask}
-                                    changeFilter={changeFilter}
-                                    addTask={addTask}
-                                    changeTaskStatus={changeTaskStatus}
+                                    tasks={allTodoListTasks}
                                     filter={todolist.filter}
-                                    removeTodolist={removeTodolist}
-                                    changeTaskTitle={changeTaskTitle}
-                                    changeTodolistTitle={changeTodolistTitle}
                                     entityStatus={todolist.entityStatus}
                                     demo={demo}
                                 />
@@ -107,7 +85,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
                     })
                 }
             </Grid>
-        </>
+        </div>
     )
 
 }

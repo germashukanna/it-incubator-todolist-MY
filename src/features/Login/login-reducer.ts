@@ -1,8 +1,6 @@
-import {Dispatch} from "redux";
 import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
@@ -58,6 +56,11 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, thunkAPI) 
     }
 })
 
+export const asyncActions = {
+    loginTC,
+    logOutTC
+}
+
 //Thunks
 // export const loginTC_ = (data: LoginParamsType) => (dispatch: Dispatch) => {
 //     dispatch(setAppStatusAC({status: "loading"}))
@@ -90,7 +93,7 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, thunkAPI) 
 //         })
 // }
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: {
         isLoggedIh: false
