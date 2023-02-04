@@ -84,7 +84,7 @@ const initialState: TasksStateType = {}
 // }
 
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'tasksReducer',
     initialState,
     reducers: {
@@ -189,7 +189,6 @@ const slice = createSlice({
 //     }
 // }
 
-export const tasksReducer = slice.reducer;
 export const {changeTaskTitleusAC} = slice.actions
 //Actions
 // export const removeTaskAC = (taskId: string, todolistId: string) => {

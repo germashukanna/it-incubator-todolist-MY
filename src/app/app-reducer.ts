@@ -46,7 +46,7 @@ const initialState = {
     isInitialized: false
 }
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'app',
     initialState: {
         status: 'idle' as RequestStatusType,
@@ -71,7 +71,6 @@ const slice = createSlice({
     }
 })
 
-export const appReducer = slice.reducer;
 export const {setAppStatusAC, errorAppStatusAC} = slice.actions
 
 // export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {

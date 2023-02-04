@@ -1,12 +1,13 @@
-import {tasksReducer} from '../features/Todolist/tasks-reducer';
+import {tasksReducer} from '../features/Todolist';
 import {ActionCreatorsMapObject, AnyAction, bindActionCreators, combineReducers} from 'redux';
-import {todolistsReducer} from "../features/Todolist/todolist-reducer";
+import {todolistsReducer} from "../features/Todolist";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {appReducer} from "./app-reducer";
-import {loginReducer} from "../features/Login/login-reducer";
+import {appReducer} from "./";
+import {loginReducer} from "../features/Login";
 import {configureStore} from "@reduxjs/toolkit";
 import {useMemo} from "react";
 import {useAppDispatch} from "./Hooks";
+import {FieldErrorType} from "../api/todolist-api";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -50,5 +51,7 @@ export function useActions<T extends ActionCreatorsMapObject<any>>(actions: T) {
     }, [])
     return boundActions
 }
+
+export type ThunkError = { rejectValue: { errors: Array<string>, fieldErrors?: Array<FieldErrorType> | undefined } }
 
 

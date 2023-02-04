@@ -1,17 +1,15 @@
-import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
-import {todolistsReducer} from "./todolist-reducer";
-import {tasksReducer} from "./tasks-reducer";
+import {combineReducers} from "redux";
+import {todolistsReducer} from "./";
+import {tasksReducer} from "./";
 import {v1} from "uuid";
 import {AppRootStateType, RootReducerType} from "../../app/store";
 import React from "react";
-import {Provider} from "react-redux";
 import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
 import {appReducer} from "../../app/app-reducer";
 import thunk from "redux-thunk";
-import {loginReducer} from "../Login/login-reducer";
+import {loginReducer} from "../Login/";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
-
 
 
 const rootReducer: RootReducerType = combineReducers({

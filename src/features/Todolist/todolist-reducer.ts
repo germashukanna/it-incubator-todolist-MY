@@ -152,7 +152,6 @@ export const slice = createSlice({
 //     }
 // }
 
-export const todolistsReducer = slice.reducer;
 export const {
     ChangeTodolistFilterAC,
     ChangeTodolistEntityStatusAC
