@@ -3,9 +3,11 @@ import s from "../Todolist.module.css";
 import {EditadleSpan} from "../../../../Components/EditadleSpan/EditadleSpan";
 import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TasksType} from "../../../../api/tasks-api";
-import {useActions} from "../../../../app/store";
+import {TaskStatuses, TasksType} from "../../../../api/types";
 import {tasksActions} from "../../index";
+import {useActions} from "../../../../utils/redux-utils";
+
+
 
 type TaskPropsType = {
     task: TasksType

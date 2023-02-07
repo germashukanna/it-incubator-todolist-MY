@@ -1,8 +1,9 @@
-import {changeTaskTitleusAC, tasksReducer} from './tasks-reducer'
-import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
+import {changeTaskTitleusAC} from './tasks-reducer'
+import {TaskPriorities, TaskStatuses} from "../../api/types";
 import {TasksStateType} from "../../app/AppWithRedux";
-import {createTasksTC, removeTasksTC, updateTaskStatusTC} from "./tasks-actions";
+import {removeTasksTC, updateTaskStatusTC} from "./tasks-actions";
 import {removeTodolistsTC} from "./todolists-actions";
+import {tasksReducer} from "./index";
 
 let startState: TasksStateType
 

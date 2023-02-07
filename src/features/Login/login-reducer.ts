@@ -1,26 +1,9 @@
-import {authAPI, LoginParamsType} from "../../api/todolist-api";
-import {setAppStatusAC} from "../../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {authAPI} from "../../api/todolist-api";
+import {LoginParamsType} from "../../api/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {handleAsyncServerAppError, handleAsyncServerNetworkError} from "../../utils/error-utils";
+import {setAppStatusAC} from "../AplicationCommonActions";
 
-
-// export const loginReducer = (state = initialState, action: ActionType): initialStateType => {
-//     switch (action.type) {
-//         case 'login/SET-IS-LOGGED-IN': {
-//             return {
-//                 ...state, isLoggedIh: action.value
-//             }
-//         }
-//
-//         default:
-//             return state
-//     }
-// }
-
-//Types
-// export type ActionType =
-//     | ReturnType<typeof setAppStatusAC>
-//     | ReturnType<typeof errorAppStatusAC>
 
 export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamsType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
@@ -30,13 +13,11 @@ export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamsT
             thunkAPI.dispatch(setAppStatusAC({status: "succeeded"}))
             return {value: true}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldErrors})
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
         // @ts-ignore
-        handleServerNetworkError(error, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue({errors: [error], fieldsErrors: undefined})
+        return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
 export const logOutTC = createAsyncThunk('auth/logOut', async (param, thunkAPI) => {
@@ -44,15 +25,14 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, thunkAPI) 
     try {
         const res = await authAPI.loginOut()
         if (res.data.resultCode === 0) {
-            //thunkAPI.dispatch(setIsLoggedIhAC({value: false}))
             thunkAPI.dispatch(setAppStatusAC({status: "succeeded"}))
             return {value: false}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
         // @ts-ignore
-        handleServerNetworkError(error.message, thunkAPI.dispatch)
+        return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
 
@@ -60,38 +40,6 @@ export const asyncActions = {
     loginTC,
     logOutTC
 }
-
-//Thunks
-// export const loginTC_ = (data: LoginParamsType) => (dispatch: Dispatch) => {
-//     dispatch(setAppStatusAC({status: "loading"}))
-//     authAPI.login(data)
-//         .then((res) => {
-//             if (res.data.resultCode === 0) {
-//                 dispatch(setIsLoggedIhAC({value: true}))
-//                 dispatch(setAppStatusAC({status: "succeeded"}))
-//             } else {
-//                 handleServerAppError(res.data, dispatch)
-//             }
-//         })
-//         .catch((error: AxiosError) => {
-//             handleServerNetworkError(error.message, dispatch)
-//         })
-// }
-// export const logOutTC_ = () => (dispatch: Dispatch) => {
-//     dispatch(setAppStatusAC({status: "loading"}))
-//     authAPI.loginOut()
-//         .then((res) => {
-//             if (res.data.resultCode === 0) {
-//                 dispatch(setIsLoggedIhAC({value: false}))
-//                 dispatch(setAppStatusAC({status: "succeeded"}))
-//             } else {
-//                 handleServerAppError(res.data, dispatch)
-//             }
-//         })
-//         .catch((error: AxiosError) => {
-//             handleServerNetworkError(error.message, dispatch)
-//         })
-// }
 
 export const slice = createSlice({
     name: 'auth',
@@ -110,13 +58,6 @@ export const slice = createSlice({
     }
 })
 
-export const loginReducer = slice.reducer;
-export const {setIsLoggedIhAC} = slice.actions
-
-// Actions
-// export const setIsLoggedIhAC = (value: boolean) => {
-//     return {type: 'login/SET-IS-LOGGED-IN', value} as const
-// }
 
 
 

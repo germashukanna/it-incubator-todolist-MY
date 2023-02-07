@@ -5,8 +5,8 @@ import {Todolist} from "./Todolist";
 import {useAppDispatch, useAppSelector} from "../../../app/Hooks";
 import {Navigate} from "react-router-dom";
 import {authSelectors} from "../../Login";
-import {tasksActions, todolistsActions} from "../index";
-import {useActions} from "../../../app/store";
+import {todolistsActions} from "../index";
+import {useActions} from "../../../utils/redux-utils";
 
 
 type PropsType = {
@@ -40,34 +40,6 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     useEffect(() => {
         fetchTodolistsTC()
     }, [])
-
-    // const removeTask = useCallback(function (taskId: string, todolistId: string) {
-    //     removeTasksTC({taskId, todolistId})
-    // }, [])
-
-    // const addTask = useCallback((title: string, todolistId: string) => {
-    //     createTasksTC({todolistId, title})
-    // }, [])
-
-
-//--------------------------------------------------------------------------------------------------------//
-//     const changeFilter = useCallback((value: FilterValueType, todolistId: string) => {
-//         ChangeTodolistFilterAC({id: todolistId, filter: value})
-//     }, [dispatch])
-
-    // const removeTodolist = useCallback((id: string) => {
-    //     removeTodolistsTC(id)
-    // }, [dispatch])
-
-    // const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
-    //     changeTodolistTitleTC({id, title: newTitle})
-    //
-    // }, [dispatch])
-
-    // const addTodolist = useCallback((title: string) => {
-    //     addTodolistsTC(title)
-    // }, [dispatch])
-
 
     if (!isLoggedIh) {
         return <Navigate to={'/login'}/>

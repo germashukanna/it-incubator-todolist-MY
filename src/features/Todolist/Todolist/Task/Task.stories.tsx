@@ -1,8 +1,7 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
-import {TaskPriorities, TaskStatuses} from "../../../../api/tasks-api";
+import {TaskPriorities, TaskStatuses} from "../../../../api/types";
 import {ReduxStoreProviderDecorator} from "../../ReduxStoreProviderDecorator";
 
 
@@ -10,12 +9,6 @@ import {ReduxStoreProviderDecorator} from "../../ReduxStoreProviderDecorator";
 export default {
     title: 'TODOLISTS/Task',
     component: Task,
-    // args: {
-    //     changeTaskStatus: action('changeTaskStatus'),
-    //     changeTaskTitle: action('changeTaskTitle'),
-    //     removeTask: action('removeTask'),
-    //     todolistId: "todolistId"
-    // },
     decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof Task>;
 

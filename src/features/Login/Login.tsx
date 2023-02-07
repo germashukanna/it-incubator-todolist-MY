@@ -11,8 +11,8 @@ import {FormikHelpers, useFormik} from "formik";
 import {useAppSelector} from "../../app/Hooks";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIh} from "./selectors";
-import {useActions} from "../../app/store";
 import {authActions} from "./index";
+import {useActions} from "../../utils/redux-utils";
 
 
 type FormikValuesType = {

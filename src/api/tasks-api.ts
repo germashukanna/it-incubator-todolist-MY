@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios'
-import {RequestStatusType} from "../app/app-reducer";
+import {GetTasksType, TasksType, UpdateTasksType, ResponseType} from "./types";
 
 
 const instance = axios.create({
@@ -30,52 +30,8 @@ export const tasksAPI = {
 
 }
 
-// types
-export type TasksType = {
-    description: string
-    title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-    entityStatus: RequestStatusType
-}
-type GetTasksType = {
-    items: TasksType[]
-    totalCount: number
-    error: string | null
-}
-export type ResponseType<D = {}> = {
-    resultCode: number
-    messages: string[],
-    fieldErrors?: Array<{field: string, error: string}>
-    data: D
-}
-export enum TaskStatuses {
-    New,
-    InProgress,
-    Completed,
-    Draft
-}
-export enum TaskPriorities {
-    Low,
-    Middle,
-    Hi,
-    Urgently,
-    Later
-}
-type UpdateTasksType = {
-    title: string
-    description: string
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
-}
+
+
 
 
 

@@ -4,13 +4,12 @@ import {EditadleSpan} from "../../../Components/EditadleSpan/EditadleSpan";
 import {Task} from "./Task/Task";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TasksType} from "../../../api/tasks-api";
+import {TaskStatuses, TasksType} from "../../../api/types";
 import {FilterValueType} from "../todolist-reducer";
-import {RequestStatusType} from "../../../app/app-reducer";
-import {fetchTasksTC} from "../tasks-actions";
-import {useActions} from "../../../app/store";
+import {RequestStatusType} from "../../App/app-reducer";
 import {tasksActions, todolistsActions} from "../index";
 import {useAppDispatch} from "../../../app/Hooks";
+import {useActions} from "../../../utils/redux-utils";
 
 type TodolistPropsType = {
     title: string

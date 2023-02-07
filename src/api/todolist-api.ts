@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios'
-import {ResponseType} from "./tasks-api";
+import {LoginParamsType, ResponseType, TodoType, BaseResponseType} from "./types";
 
 
 const instance = axios.create({
@@ -42,27 +42,6 @@ export const authAPI = {
 }
 
 
-// types
-export type TodoType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
-}
 
-export type FieldErrorType = {field: string, error: string}
-type BaseResponseType<a = {}> = {
-    resultCode: number
-    messages: string[]
-    fieldsErrors?: Array<FieldErrorType>
-    data: a
-}
-
-export type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: string
-}
 
 

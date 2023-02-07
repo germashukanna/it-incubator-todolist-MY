@@ -10,16 +10,16 @@ import {
     Typography
 } from "@mui/material";
 import {Menu} from '@mui/icons-material';
-import {TasksType} from "../api/tasks-api";
 import {TodolistsList} from "../features/Todolist/";
 import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
-import {useAppDispatch, useAppSelector} from "./Hooks";
+import {useAppSelector} from "./Hooks";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/Login/";
-import {initializedTC} from "./app-reducer";
-import {logOutTC} from "../features/Login/login-reducer";
+import {authActions, Login} from "../features/Login/";
 import {selectInitialized, selectStatus} from './selectors';
 import {authSelectors} from "../features/Login";
+import {TasksType} from "../api/types";
+import {appActions} from "../features/App";
+import {useActions} from "../utils/redux-utils";
 
 
 export type TasksStateType = {
@@ -31,14 +31,15 @@ function AppWithRedux() {
     const status = useAppSelector(selectStatus)
     const initialized = useAppSelector(selectInitialized)
     const isLoggedIh = useAppSelector(authSelectors.selectIsLoggedIh)
-    const dispatch = useAppDispatch()
+    const {logOutTC} = useActions(authActions)
+    const {initializedTC} = useActions(appActions)
 
     useEffect(() => {
-        dispatch(initializedTC())
+        initializedTC()
     }, [])
 
     const onLogOutHandler = useCallback(() => {
-        dispatch(logOutTC())
+        logOutTC()
     }, [isLoggedIh])
 
     if (!initialized) {
