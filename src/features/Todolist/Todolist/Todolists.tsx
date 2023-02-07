@@ -38,7 +38,9 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     useEffect(() => {
-        fetchTodolistsTC()
+        if (!todolists.length) {
+            fetchTodolistsTC()
+        }
     }, [])
 
     if (!isLoggedIh) {

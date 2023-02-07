@@ -39,7 +39,6 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
         } else {
             helper.setTitle('')
         }
-
     }, [props.id])
 
     const onFilterButtonClickHandler = useCallback((selectFilter: FilterValueType) => {
@@ -81,7 +80,9 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
         if (demo) {
             return
         }
-        fetchTasksTC(props.id)
+        if (!props.tasks.length) {
+            fetchTasksTC(props.id)
+        }
     }, [])
 
     return (

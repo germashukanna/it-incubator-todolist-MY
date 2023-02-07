@@ -35,7 +35,9 @@ function AppWithRedux() {
     const {initializedTC} = useActions(appActions)
 
     useEffect(() => {
-        initializedTC()
+        if (!initialized) {
+            initializedTC()
+        }
     }, [])
 
     const onLogOutHandler = useCallback(() => {
