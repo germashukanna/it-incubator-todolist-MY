@@ -61,6 +61,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
                             <Paper style={{padding: '10px', width: '300px'}}>
                                 <Todolist
                                     id={todolist.id}
+                                    todolist={todolist}
                                     title={todolist.title}
                                     tasks={allTodoListTasks}
                                     filter={todolist.filter}

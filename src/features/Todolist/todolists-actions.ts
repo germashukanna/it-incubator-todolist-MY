@@ -11,7 +11,7 @@ import {setAppStatusAC} from "../AplicationCommonActions";
 
 
 
-export const fetchTodolistsTC = createAsyncThunk<{todos: TodoType[]}, undefined, ThunkError>('tasks/fetchTodolists', async (param, thunkAPI) => {
+export const fetchTodolistsTC = createAsyncThunk<{todos: TodoType[]}, undefined, ThunkError>('todolists/fetchTodolists', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     try {
         const res = await todolistAPI.getTodolists()
@@ -23,7 +23,7 @@ export const fetchTodolistsTC = createAsyncThunk<{todos: TodoType[]}, undefined,
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
-export const removeTodolistsTC = createAsyncThunk<{id: string}, string, ThunkError>('tasks/removeTodolists', async (todolistId, thunkAPI) => {
+export const removeTodolistsTC = createAsyncThunk<{id: string}, string, ThunkError>('todolists/removeTodolists', async (todolistId, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     thunkAPI.dispatch(ChangeTodolistEntityStatusAC({id: todolistId, entityStatus: 'loading'}))
     try {
@@ -42,7 +42,7 @@ export const removeTodolistsTC = createAsyncThunk<{id: string}, string, ThunkErr
 })
 export const addTodolistsTC = createAsyncThunk<{ todolist: TodoType }, string,
     ThunkError>
-('tasks/addTodolists', async (title, thunkAPI) => {
+('todolists/addTodolists', async (title, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     try {
         const res = await todolistAPI.createTodolist(title)
@@ -57,7 +57,7 @@ export const addTodolistsTC = createAsyncThunk<{ todolist: TodoType }, string,
         return handleAsyncServerNetworkError(error, thunkAPI, false)
     }
 })
-export const changeTodolistTitleTC = createAsyncThunk('tasks/changeTodolistTitle', async (param: { id: string, title: string }, thunkAPI) => {
+export const changeTodolistTitleTC = createAsyncThunk('todolists/changeTodolistTitle', async (param: { id: string, title: string }, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     try {
         const res = await todolistAPI.updateTodolist(param.id, param.title)

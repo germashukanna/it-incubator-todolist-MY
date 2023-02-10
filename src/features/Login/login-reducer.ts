@@ -55,6 +55,9 @@ export const slice = createSlice({
         builder.addCase(loginTC.fulfilled, (state, action) => {
             state.isLoggedIh = action.payload.value;
         });
+        builder.addCase(logOutTC.fulfilled, (state, action) => {
+            state.isLoggedIh = action.payload.value;
+        });
     }
 })
 

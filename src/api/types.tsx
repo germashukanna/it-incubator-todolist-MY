@@ -19,10 +19,11 @@ export type GetTasksType = {
     totalCount: number
     error: string | null
 }
+
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[],
-    fieldErrors?: Array<{field: string, error: string}>
+    fieldErrors?: Array<FieldErrorType>
     data: D
 }
 export enum TaskStatuses {
@@ -41,8 +42,8 @@ export enum TaskPriorities {
 export type UpdateTasksType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }

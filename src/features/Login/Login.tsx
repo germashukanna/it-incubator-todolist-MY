@@ -90,9 +90,9 @@ export const Login = () => {
                         formik.errors.password
                             ? <div style={{color: 'red'}}>{formik.errors.password}</div>
                             : null}
-                        <FormControlLabel label={'Remember me'} control={<Checkbox
+                        <FormControlLabel label={'Remember me'} control={<Checkbox color={'secondary'}
                             onChange={formik.handleChange} checked={formik.values.rememberMe} name='rememberMe'/>}/>
-                        <Button type={'submit'} variant={'contained'} color={'primary'}>
+                        <Button type={'submit'} variant={'contained'} color={'secondary'}>
                             Login
                         </Button>
                     </FormGroup>
