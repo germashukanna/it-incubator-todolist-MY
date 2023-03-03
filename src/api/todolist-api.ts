@@ -17,11 +17,11 @@ export const todolistAPI = {
     },
 
     createTodolist: (title: string) => {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TodoType }>>>('todo-lists', {title})
+        return instance.post<ResponseType<{ item: TodoType }>>('todo-lists', {title})
     },
 
-    deleteTodolist: (todolistId: string) => {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
+    deleteTodolist: (id: string) => {
+        return instance.delete<ResponseType>(`todo-lists/${id}`)
     },
 
     updateTodolist: (todolistId: string, title: string) => {

@@ -10,8 +10,7 @@ import {ThunkError} from "../../utils/types";
 import {setAppStatusAC} from "../AplicationCommonActions";
 
 
-
-export const fetchTodolistsTC = createAsyncThunk<{todos: TodoType[]}, undefined, ThunkError>('todolists/fetchTodolists', async (param, thunkAPI) => {
+export const fetchTodolistsTC = createAsyncThunk<{ todos: TodoType[] }, undefined, ThunkError>('todolists/fetchTodolists', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     try {
         const res = await todolistAPI.getTodolists()
@@ -23,22 +22,13 @@ export const fetchTodolistsTC = createAsyncThunk<{todos: TodoType[]}, undefined,
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
-export const removeTodolistsTC = createAsyncThunk<{id: string}, string, ThunkError>('todolists/removeTodolists', async (todolistId, thunkAPI) => {
+export const removeTodolistsTC = createAsyncThunk<{ id: string }, string, ThunkError>
+('todolists/removeTodolists', async (todolistId, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: "loading"}))
     thunkAPI.dispatch(ChangeTodolistEntityStatusAC({id: todolistId, entityStatus: 'loading'}))
-    try {
-        const res = await todolistAPI.deleteTodolist(todolistId)
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(setAppStatusAC({status: "succeeded"}))
-            return {id: todolistId}
-        } else {
-            return handleAsyncServerAppError(res.data, thunkAPI)
-        }
-
-    } catch (error) {
-        // @ts-ignore
-        return handleAsyncServerNetworkError(error, thunkAPI, false)
-    }
+    const res = await todolistAPI.deleteTodolist(todolistId)
+    thunkAPI.dispatch(setAppStatusAC({status: "succeeded"}))
+    return {id: todolistId}
 })
 export const addTodolistsTC = createAsyncThunk<{ todolist: TodoType }, string,
     ThunkError>

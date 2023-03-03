@@ -6,25 +6,20 @@ import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {TaskStatuses, TasksType} from "../../../api/types";
 import {FilterValueType, TodolistDomainType} from "../todolist-reducer";
-import {RequestStatusType} from "../../App/app-reducer";
 import {tasksActions, todolistsActions} from "../index";
 import {useAppDispatch} from "../../../app/Hooks";
 import {useActions} from "../../../utils/redux-utils";
 
 type TodolistPropsType = {
-    title: string
     todolist: TodolistDomainType
     tasks: Array<TasksType>
-    entityStatus: RequestStatusType
-    filter: FilterValueType
-    id: string
     demo?: boolean
 }
 
 export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
     const {ChangeTodolistFilterAC, removeTodolistsTC, changeTodolistTitleTC} = useActions(todolistsActions)
-    const {updateTaskStatusTC, fetchTasksTC} = useActions(tasksActions)
-    const toCheckStatus = props.entityStatus === 'loading'
+    const {fetchTasksTC} = useActions(tasksActions)
+    const toCheckStatus = props.todolist.entityStatus === 'loading'
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -60,14 +55,17 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
     }, [props.todolist.id])
 
     const onFilterButtonClickHandler = useCallback((selectFilter: FilterValueType) => {
-        ChangeTodolistFilterAC({filter: selectFilter, id: props.id})
-    }, [props.id, ChangeTodolistFilterAC])
+        ChangeTodolistFilterAC({filter: selectFilter, id: props.todolist.id})
+    }, [props.todolist.id, ChangeTodolistFilterAC])
 
     let tasksForTodolists = props.tasks
-    if (props.filter === "active") {
+    // if (!tasksForTodolists) {
+    //     return null
+    // }
+    if (props.todolist.filter === "active") {
         tasksForTodolists = props.tasks.filter(task => task.status === TaskStatuses.New)
     }
-    if (props.filter === "completed") {
+    if (props.todolist.filter === "completed") {
         tasksForTodolists = props.tasks.filter(task => task.status === TaskStatuses.Completed)
     }
 
@@ -76,16 +74,11 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
     ) => {
 
         return <Button onClick={() => onFilterButtonClickHandler(selectFilter)}
-                       variant={props.filter === selectFilter ? 'outlined' : 'text'}
+                       variant={props.todolist.filter === selectFilter ? 'outlined' : 'text'}
                        color={'inherit'}
         >{text}
         </Button>
     }
-
-    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
-        updateTaskStatusTC({taskId, todolistId, status})
-    }, [])
-
 
     return (
         <div style={{position: 'relative'}}>
@@ -93,21 +86,20 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
                         style={{position: 'absolute', right: '1px', top: '-1px'}}>
                 <Delete/></IconButton>
             <h3>
-                <EditadleSpan title={props.title} onChange={changeTodolistTitle}
-                              disabled={props.entityStatus === 'loading'}/>
+                <EditadleSpan title={props.todolist.title} onChange={changeTodolistTitle}
+                              disabled={props.todolist.entityStatus === 'loading'}/>
             </h3>
             <AddItemForm addItem={addTaskCallback} disabled={toCheckStatus}/>
-            <ul>
-                {tasksForTodolists.map(t => <Task
-                    task={t}
-                    changeTaskStatus={changeTaskStatus}
-                    todolistId={props.todolist.id}
-                    key={t.id}
 
+            <div>
+                {tasksForTodolists && tasksForTodolists.map(t => <Task
+                    key={t.id}
+                    task={t}
+                    todolistId={props.todolist.id}
                 />)}
                 {!tasksForTodolists.length &&
                     <div style={{padding: '10px', color: 'grey'}}>Create your first task)</div>}
-            </ul>
+            </div>
             <div>
                 {renderFilterButton('all', 'All')}
                 {renderFilterButton('active', 'Active')}
